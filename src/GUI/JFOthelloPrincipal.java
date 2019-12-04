@@ -384,8 +384,9 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
     private void checkWest(int position) {
         PieceNodes aux = pieceList.get(position);
-        if (!aux.getWest().getNodeColor().equals("n")) {
-            try {
+        if (aux.getWest() != null) {
+            if (!aux.getWest().getNodeColor().equals("n")) {
+
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getWest()
                         .getNodeColor().equals(turn)) {
                     aux = aux.getWest();
@@ -394,8 +395,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                     changeIcon(pieceList.indexOf(aux));
                     avalible.add(pieceList.indexOf(aux));
                 }
-            } catch (NullPointerException e) {
-                System.out.println("Llego al oeste");
+
             }
         }
 
@@ -403,8 +403,9 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
     private void checkEast(int position) {
         PieceNodes aux = pieceList.get(position);
-        if (!aux.getEast().getNodeColor().equals("n")) {
-            try {
+        if (aux.getEast() != null) {
+            if (!aux.getEast().getNodeColor().equals("n")) {
+
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getEast()
                         .getNodeColor().equals(turn)) {
                     aux = aux.getEast();
@@ -413,16 +414,16 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                     changeIcon(pieceList.indexOf(aux));
                     avalible.add(pieceList.indexOf(aux));
                 }
-            } catch (NullPointerException e) {
-                System.out.println("Llego al este.");
+
             }
         }
+
     }
 
     private void checkNorth(int position) {
         PieceNodes aux = pieceList.get(position);
-        if ((!aux.getNorth().getNodeColor().equals("n"))&&(!aux.getNorth().getNodeColor().equals(turn))) {
-            try {
+        if (aux.getNorth() != null) {
+            if ((!aux.getNorth().getNodeColor().equals("n")) && (!aux.getNorth().getNodeColor().equals(turn))) {
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getNorth()
                         .getNodeColor().equals(turn)) {
                     aux = aux.getNorth();
@@ -432,17 +433,17 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                     changeIcon(pieceList.indexOf(aux));
                     avalible.add(pieceList.indexOf(aux));
                 }
-            } catch (NullPointerException e) {
-                System.out.println("Llego al norte.");
-            }
 
+            }
         }
+
     }
 
     private void checkSouth(int position) {
         PieceNodes aux = pieceList.get(position);
-        if ((!aux.getSouth().getNodeColor().equals("n"))&&(!aux.getSouth().getNodeColor().equals(turn))) {
-            try {
+        if (aux.getSouth() != null) {
+            if ((!aux.getSouth().getNodeColor().equals("n"))) {
+
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getSouth()
                         .getNodeColor().equals(turn)) {
                     aux = aux.getSouth();
@@ -451,8 +452,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                     changeIcon(pieceList.indexOf(aux));
                     avalible.add(pieceList.indexOf(aux));
                 }
-            } catch (NullPointerException e) {
-                System.out.println("Llego al sur.");
+
             }
         }
 
@@ -460,8 +460,9 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
     private void checkNorthWest(int position) {
         PieceNodes aux = pieceList.get(position);
-        if (!aux.getNorthwest().getNodeColor().equals("n")) {
-            try {
+        if (aux.getNorthwest() != null) {
+            if (!aux.getNorthwest().getNodeColor().equals("n")) {
+
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getNorthwest()
                         .getNodeColor().equals(turn)) {
                     aux = aux.getNorthwest();
@@ -470,8 +471,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                     changeIcon(pieceList.indexOf(aux));
                     avalible.add(pieceList.indexOf(aux));
                 }
-            } catch (NullPointerException e) {
-                System.out.println("Llego al oeste.");
+
             }
         }
 
@@ -479,8 +479,8 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
     private void checkNorthEast(int position) {
         PieceNodes aux = pieceList.get(position);
-        if (!aux.getNortheast().getNodeColor().equals("n")) {
-            try {
+        if (aux.getNortheast() != null) {
+            if (!aux.getNortheast().getNodeColor().equals("n")) {
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getNortheast()
                         .getNodeColor().equals(turn)) {
                     aux = aux.getNortheast();
@@ -489,17 +489,15 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                     changeIcon(pieceList.indexOf(aux));
                     avalible.add(pieceList.indexOf(aux));
                 }
-            } catch (NullPointerException e) {
-                System.out.println("Llego al este.");
             }
         }
-
     }
 
     private void checkSouthWest(int position) {
         PieceNodes aux = pieceList.get(position);
-        if (!aux.getSouthwest().getNodeColor().equals("n")) {
-            try {
+        if (aux.getSouthwest() != null) {
+            if (!aux.getSouthwest().getNodeColor().equals("n")) {
+
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getSouthwest()
                         .getNodeColor().equals(turn)) {
                     aux = aux.getSouthwest();
@@ -508,31 +506,32 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                     changeIcon(pieceList.indexOf(aux));
                     avalible.add(pieceList.indexOf(aux));
                 }
-            } catch (NullPointerException e) {
-                System.out.println("Llego al oeste.");
-            }
 
+            }
         }
 
     }
 
     private void checkSouthEast(int position) {
         PieceNodes aux = pieceList.get(position);
-        if (!aux.getSoutheast().getNodeColor().equals("n")) {
-            try {
-                while (aux != null && !aux.getNodeColor().equals("n") && !aux.getSoutheast()
-                        .getNodeColor().equals(turn)) {
-                    aux = aux.getSoutheast();
+        if (aux.getSoutheast() != null) {
+            if (!aux.getSoutheast().getNodeColor().equals("n")) {
+                try {
+                    while (aux != null && !aux.getNodeColor().equals("n") && !aux.getSoutheast()
+                            .getNodeColor().equals(turn)) {
+                        aux = aux.getSoutheast();
+                    }
+
+                    if (pieceList.indexOf(aux) != position) {
+                        changeIcon(pieceList.indexOf(aux));
+                        avalible.add(pieceList.indexOf(aux));
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println("Llego al este.");
                 }
-                
-                if (pieceList.indexOf(aux) != position) {
-                    changeIcon(pieceList.indexOf(aux));
-                    avalible.add(pieceList.indexOf(aux));
-                }
-            } catch (NullPointerException e) {
-                System.out.println("Llego al este.");
             }
         }
+
     }
 
     private void checkAvalibleMovements(int position) {
@@ -602,6 +601,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             while (aux != null && !aux.getSouth().getNodeColor().equals(turn) && !aux.getSouth().getNodeColor().equals("n")) {
                 aux.getSouth().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
+                aux.getSouth().setNodeColor(turn);
                 aux = aux.getSouth();
             }
             aux = pieceList.get(position);
@@ -612,6 +612,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             while (aux.getNorth() != null && !aux.getNorth().getNodeColor().equals(turn) && !aux.getNorth().getNodeColor().equals("n")) {
                 aux.getNorth().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
+                aux.getNorth().setNodeColor(turn);
                 aux = aux.getNorth();
             }
             aux = pieceList.get(position);
@@ -621,6 +622,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             while (aux != null && !aux.getEast().getNodeColor().equals(turn) && !aux.getEast().getNodeColor().equals("n")) {
                 aux.getEast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
+                aux.getEast().setNodeColor(turn);
                 aux = aux.getEast();
             }
             aux = pieceList.get(position);
@@ -630,6 +632,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             while (aux != null && !aux.getWest().getNodeColor().equals(turn) && !aux.getWest().getNodeColor().equals("n")) {
                 aux.getWest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
+                aux.getWest().setNodeColor(turn);
                 aux = aux.getWest();
             }
             aux = pieceList.get(position);
@@ -639,6 +642,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             while (aux.getNorthwest() != null && !aux.getNorthwest().getNodeColor().equals(turn) && !aux.getNorthwest().getNodeColor().equals("n")) {
                 aux.getNorthwest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
+                aux.getNorthwest().setNodeColor(turn);
                 aux = aux.getNorthwest();
             }
             aux = pieceList.get(position);
@@ -648,6 +652,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             while (aux.getNortheast() != null && !aux.getNortheast().getNodeColor().equals(turn) && !aux.getNortheast().getNodeColor().equals("n")) {
                 aux.getNortheast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
+                aux.getNortheast().setNodeColor(turn);
                 aux = aux.getNortheast();
             }
             aux = pieceList.get(position);
@@ -657,6 +662,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             while (aux != null && !aux.getSouthwest().getNodeColor().equals(turn) && !aux.getSouthwest().getNodeColor().equals("n")) {
                 aux.getSouthwest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
+                aux.getSouthwest().setNodeColor(turn);
                 aux = aux.getSouthwest();
             }
             aux = pieceList.get(position);
@@ -666,6 +672,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             while (aux != null && !aux.getSoutheast().getNodeColor().equals(turn) && !aux.getSoutheast().getNodeColor().equals("n")) {
                 aux.getSoutheast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
+                aux.getSoutheast().setNodeColor(turn);
                 aux = aux.getSoutheast();
             }
         } catch (NullPointerException e) {
