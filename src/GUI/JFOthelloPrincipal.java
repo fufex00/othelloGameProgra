@@ -49,6 +49,10 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         jPanel1 = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
         Jugador = new javax.swing.JLabel();
+        lblBlackPieces = new javax.swing.JLabel();
+        lblWhitePieces = new javax.swing.JLabel();
+        lblPlayerOne = new javax.swing.JLabel();
+        lblPlayertwo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuGame = new javax.swing.JMenu();
         jMenuItemRestart = new javax.swing.JMenuItem();
@@ -67,6 +71,10 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
         Jugador.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
 
+        lblPlayerOne.setText("p1");
+
+        lblPlayertwo.setText("p2");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -75,19 +83,38 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                 .addContainerGap()
                 .addComponent(label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Jugador, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(513, Short.MAX_VALUE))
+                .addComponent(Jugador, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPlayertwo)
+                    .addComponent(lblPlayerOne))
+                .addGap(111, 111, 111)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblBlackPieces)
+                    .addComponent(lblWhitePieces))
+                .addGap(62, 62, 62))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(Jugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblWhitePieces, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPlayerOne))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblBlackPieces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblPlayertwo))
                         .addGap(4, 4, 4))
-                    .addComponent(label, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Jugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(label)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 720, 60));
@@ -203,22 +230,17 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelGameBoard;
     private javax.swing.JLabel label;
+    private javax.swing.JLabel lblBlackPieces;
+    private javax.swing.JLabel lblPlayerOne;
+    private javax.swing.JLabel lblPlayertwo;
+    private javax.swing.JLabel lblWhitePieces;
     // End of variables declaration//GEN-END:variables
     public String turn = "b";
+    public int blackPieces = 0;
+    public int whitePieces = 0;
     ArrayList<Integer> avalible = new ArrayList<>();
     ArrayList<Integer> used = new ArrayList<>();
     String colorIcon = "/Images/dark.png";
-
-    private void middleNodeCreation(int i, int nextR, int previousR) {
-        pieceList.get(i).setNorth(pieceList.get(previousR));
-        pieceList.get(i).setNorthwest(pieceList.get(previousR - 1));
-        pieceList.get(i).setNortheast(pieceList.get(previousR + 1));
-        pieceList.get(i).setWest(pieceList.get(i - 1));
-        pieceList.get(i).setEast(pieceList.get(i + 1));
-        pieceList.get(i).setSouthwest(pieceList.get(nextR - 1));
-        pieceList.get(i).setSouth(pieceList.get(nextR));
-        pieceList.get(i).setSoutheast(pieceList.get(nextR + 1));
-    }
 
     public void iniciateBoard() {
         for (PieceNodes piece : pieceList) {
@@ -242,6 +264,8 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         used.add(28);
         used.add(35);
         used.add(36);
+        lblBlackPieces.setText("" + scoreCalculator());
+        lblWhitePieces.setText("" + scoreCalculator());
         checkLegalMoves();
     }
 
@@ -360,12 +384,25 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         pieceList.get(63).setWest(pieceList.get(62));
     }
 
+    private void middleNodeCreation(int i, int nextR, int previousR) {
+        pieceList.get(i).setNorth(pieceList.get(previousR));
+        pieceList.get(i).setNorthwest(pieceList.get(previousR - 1));
+        pieceList.get(i).setNortheast(pieceList.get(previousR + 1));
+        pieceList.get(i).setWest(pieceList.get(i - 1));
+        pieceList.get(i).setEast(pieceList.get(i + 1));
+        pieceList.get(i).setSouthwest(pieceList.get(nextR - 1));
+        pieceList.get(i).setSouth(pieceList.get(nextR));
+        pieceList.get(i).setSoutheast(pieceList.get(nextR + 1));
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < pieceList.size(); i++) {
             if (e.getSource() == pieceList.get(i)) {
                 System.out.println(pieceList.get(i).getNodeColor());
                 if (checkUsed(i)) {
+                    lblBlackPieces.setText("" + scoreCalculator());
+                    lblWhitePieces.setText("" + scoreCalculator());
                     flipPieces(i);
                 }
             }
@@ -382,158 +419,6 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         //avalible.clear();
     }
 
-    private void checkWest(int position) {
-        PieceNodes aux = pieceList.get(position);
-        if (aux.getWest() != null) {
-            if (!aux.getWest().getNodeColor().equals("n")) {
-
-                while (aux != null && !aux.getNodeColor().equals("n") && !aux.getWest()
-                        .getNodeColor().equals(turn)) {
-                    aux = aux.getWest();
-                }
-                if (pieceList.indexOf(aux) != position) {
-                    changeIcon(pieceList.indexOf(aux));
-                    avalible.add(pieceList.indexOf(aux));
-                }
-
-            }
-        }
-
-    }
-
-    private void checkEast(int position) {
-        PieceNodes aux = pieceList.get(position);
-        if (aux.getEast() != null) {
-            if (!aux.getEast().getNodeColor().equals("n")) {
-
-                while (aux != null && !aux.getNodeColor().equals("n") && !aux.getEast()
-                        .getNodeColor().equals(turn)) {
-                    aux = aux.getEast();
-                }
-                if (pieceList.indexOf(aux) != position) {
-                    changeIcon(pieceList.indexOf(aux));
-                    avalible.add(pieceList.indexOf(aux));
-                }
-
-            }
-        }
-
-    }
-
-    private void checkNorth(int position) {
-        PieceNodes aux = pieceList.get(position);
-        if (aux.getNorth() != null) {
-            if ((!aux.getNorth().getNodeColor().equals("n")) && (!aux.getNorth().getNodeColor().equals(turn))) {
-                while (aux != null && !aux.getNodeColor().equals("n") && !aux.getNorth()
-                        .getNodeColor().equals(turn)) {
-                    aux = aux.getNorth();
-
-                }
-                if (pieceList.indexOf(aux) != position) {
-                    changeIcon(pieceList.indexOf(aux));
-                    avalible.add(pieceList.indexOf(aux));
-                }
-
-            }
-        }
-
-    }
-
-    private void checkSouth(int position) {
-        PieceNodes aux = pieceList.get(position);
-        if (aux.getSouth() != null) {
-            if ((!aux.getSouth().getNodeColor().equals("n"))) {
-
-                while (aux != null && !aux.getNodeColor().equals("n") && !aux.getSouth()
-                        .getNodeColor().equals(turn)) {
-                    aux = aux.getSouth();
-                }
-                if (pieceList.indexOf(aux) != position) {
-                    changeIcon(pieceList.indexOf(aux));
-                    avalible.add(pieceList.indexOf(aux));
-                }
-
-            }
-        }
-
-    }
-
-    private void checkNorthWest(int position) {
-        PieceNodes aux = pieceList.get(position);
-        if (aux.getNorthwest() != null) {
-            if (!aux.getNorthwest().getNodeColor().equals("n")) {
-
-                while (aux != null && !aux.getNodeColor().equals("n") && !aux.getNorthwest()
-                        .getNodeColor().equals(turn)) {
-                    aux = aux.getNorthwest();
-                }
-                if (pieceList.indexOf(aux) != position) {
-                    changeIcon(pieceList.indexOf(aux));
-                    avalible.add(pieceList.indexOf(aux));
-                }
-
-            }
-        }
-
-    }
-
-    private void checkNorthEast(int position) {
-        PieceNodes aux = pieceList.get(position);
-        if (aux.getNortheast() != null) {
-            if (!aux.getNortheast().getNodeColor().equals("n")) {
-                while (aux != null && !aux.getNodeColor().equals("n") && !aux.getNortheast()
-                        .getNodeColor().equals(turn)) {
-                    aux = aux.getNortheast();
-                }
-                if (pieceList.indexOf(aux) != position) {
-                    changeIcon(pieceList.indexOf(aux));
-                    avalible.add(pieceList.indexOf(aux));
-                }
-            }
-        }
-    }
-
-    private void checkSouthWest(int position) {
-        PieceNodes aux = pieceList.get(position);
-        if (aux.getSouthwest() != null) {
-            if (!aux.getSouthwest().getNodeColor().equals("n")) {
-
-                while (aux != null && !aux.getNodeColor().equals("n") && !aux.getSouthwest()
-                        .getNodeColor().equals(turn)) {
-                    aux = aux.getSouthwest();
-                }
-                if (pieceList.indexOf(aux) != position) {
-                    changeIcon(pieceList.indexOf(aux));
-                    avalible.add(pieceList.indexOf(aux));
-                }
-
-            }
-        }
-
-    }
-
-    private void checkSouthEast(int position) {
-        PieceNodes aux = pieceList.get(position);
-        if (aux.getSoutheast() != null) {
-            if (!aux.getSoutheast().getNodeColor().equals("n")) {
-                try {
-                    while (aux != null && !aux.getNodeColor().equals("n") && !aux.getSoutheast()
-                            .getNodeColor().equals(turn)) {
-                        aux = aux.getSoutheast();
-                    }
-
-                    if (pieceList.indexOf(aux) != position) {
-                        changeIcon(pieceList.indexOf(aux));
-                        avalible.add(pieceList.indexOf(aux));
-                    }
-                } catch (NullPointerException e) {
-                    System.out.println("Llego al este.");
-                }
-            }
-        }
-
-    }
-
     private void checkAvalibleMovements(int position) {
         checkNorth(position);
         checkSouth(position);
@@ -545,21 +430,6 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
         checkSouthEast(position);
         checkSouthWest(position);
-    }
-
-    private void changeIcon(int position) {
-        pieceList.get(position).setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/legalMoveIcon.png")));
-        pieceList.get(position).setEnabled(true);
-    }
-
-    private boolean checkUsed(int usedPosition) {
-
-        for (Integer position : used) {
-            if (pieceList.get(position) == pieceList.get(usedPosition)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     private void flipPieces(int position) {
@@ -591,64 +461,61 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             Jugador.setText("Negras");
             checkLegalMoves();
         }
-
     }
 
     private void changeColors(int position) {
         PieceNodes aux = pieceList.get(position);
-
-        try {
-            while (aux != null && !aux.getSouth().getNodeColor().equals(turn) && !aux.getSouth().getNodeColor().equals("n")) {
+        if (aux.getSouth() != null) {
+            while (aux != null && !aux.getSouth().getNodeColor().equals(turn) && aux.getSouth().getNodeColor().equals("n")) {
                 aux.getSouth().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
                 aux.getSouth().setNodeColor(turn);
                 aux = aux.getSouth();
             }
             aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
 
-        try {
-            while (aux.getNorth() != null && !aux.getNorth().getNodeColor().equals(turn) && !aux.getNorth().getNodeColor().equals("n")) {
+        if (aux.getNorth() != null) {
+            while (aux.getNorth() != null && !aux.getNorth().getNodeColor().equals(turn)) {
                 aux.getNorth().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
                 aux.getNorth().setNodeColor(turn);
                 aux = aux.getNorth();
             }
             aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
-            while (aux != null && !aux.getEast().getNodeColor().equals(turn) && !aux.getEast().getNodeColor().equals("n")) {
+
+        if (aux.getEast() != null) {
+            while (aux != null && !aux.getEast().getNodeColor().equals(turn)) {
                 aux.getEast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
                 aux.getEast().setNodeColor(turn);
                 aux = aux.getEast();
             }
             aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
-            while (aux != null && !aux.getWest().getNodeColor().equals(turn) && !aux.getWest().getNodeColor().equals("n")) {
+
+        if (aux.getWest() != null) {
+            while (aux != null && !aux.getWest().getNodeColor().equals(turn)) {
                 aux.getWest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
                 aux.getWest().setNodeColor(turn);
                 aux = aux.getWest();
             }
             aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
-            while (aux.getNorthwest() != null && !aux.getNorthwest().getNodeColor().equals(turn) && !aux.getNorthwest().getNodeColor().equals("n")) {
+
+        if (aux.getNorthwest() != null) {
+            while (aux.getNorthwest() != null && !aux.getNorthwest().getNodeColor().equals(turn)) {
                 aux.getNorthwest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
                 aux.getNorthwest().setNodeColor(turn);
                 aux = aux.getNorthwest();
             }
             aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
+
+        if (aux.getNortheast() != null) {
             while (aux.getNortheast() != null && !aux.getNortheast().getNodeColor().equals(turn) && !aux.getNortheast().getNodeColor().equals("n")) {
                 aux.getNortheast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
@@ -656,26 +523,209 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
                 aux = aux.getNortheast();
             }
             aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
-            while (aux != null && !aux.getSouthwest().getNodeColor().equals(turn) && !aux.getSouthwest().getNodeColor().equals("n")) {
+
+        if (aux.getSouthwest() != null) {
+            while (aux != null && !aux.getSouthwest().getNodeColor().equals(turn)) {
                 aux.getSouthwest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
                 aux.getSouthwest().setNodeColor(turn);
                 aux = aux.getSouthwest();
             }
             aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
-            while (aux != null && !aux.getSoutheast().getNodeColor().equals(turn) && !aux.getSoutheast().getNodeColor().equals("n")) {
+
+        if (aux.getSoutheast() != null) {
+            while (aux != null && !aux.getSoutheast().getNodeColor().equals(turn)) {
                 aux.getSoutheast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
                 aux.setNodeColor(turn);
                 aux.getSoutheast().setNodeColor(turn);
                 aux = aux.getSoutheast();
             }
-        } catch (NullPointerException e) {
+        }
+
+    }
+
+    private void changeIcon(int position) {
+        pieceList.get(position).setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/legalMoveIcon.png")));
+        pieceList.get(position).setEnabled(true);
+    }
+
+    private boolean checkUsed(int usedPosition) {
+
+        for (Integer position : used) {
+            if (pieceList.get(position) == pieceList.get(usedPosition)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int scoreCalculator() {
+        int b = 0;
+        int w = 0;
+        for (int i = 0; i < pieceList.size(); i++) {
+            if (pieceList.get(i).getNodeColor().equals("b")) {
+                b++;
+                return b;
+            }
+            if (pieceList.get(i).getNodeColor().equals("w")) {
+                w++;
+                return w;
+            }
+
+        }
+        return 0;
+    }
+
+    private void checkWest(int position) {
+        PieceNodes aux = pieceList.get(position);
+        if (aux.getWest() != null) {
+            if (!aux.getWest().getNodeColor().equals("n")) {
+
+                while (aux.getWest() != null && !aux.getNodeColor().equals("n") && !aux.getWest()
+                        .getNodeColor().equals(turn)) {
+                    aux = aux.getWest();
+                }
+                if (pieceList.indexOf(aux) != position) {
+                    changeIcon(pieceList.indexOf(aux));
+                    avalible.add(pieceList.indexOf(aux));
+                }
+
+            }
+        }
+
+    }
+
+    private void checkEast(int position) {
+        PieceNodes aux = pieceList.get(position);
+        if (aux.getEast() != null) {
+            if (!aux.getEast().getNodeColor().equals("n")) {
+
+                while (aux.getEast() != null && !aux.getNodeColor().equals("n") && !aux.getEast()
+                        .getNodeColor().equals(turn)) {
+                    aux = aux.getEast();
+                }
+                if (pieceList.indexOf(aux) != position) {
+                    changeIcon(pieceList.indexOf(aux));
+                    avalible.add(pieceList.indexOf(aux));
+                }
+
+            }
+        }
+
+    }
+
+    private void checkNorth(int position) {
+        PieceNodes aux = pieceList.get(position);
+        if (aux.getNorth() != null) {
+            if ((!aux.getNorth().getNodeColor().equals("n")) && (!aux.getNorth().getNodeColor().equals(turn))) {
+                while (aux.getNorth() != null && !aux.getNodeColor().equals("n") && !aux.getNorth()
+                        .getNodeColor().equals(turn)) {
+                    aux = aux.getNorth();
+
+                }
+                if (pieceList.indexOf(aux) != position) {
+                    changeIcon(pieceList.indexOf(aux));
+                    avalible.add(pieceList.indexOf(aux));
+                }
+
+            }
+        }
+
+    }
+
+    private void checkSouth(int position) {
+        PieceNodes aux = pieceList.get(position);
+        if (aux.getSouth() != null) {
+            if ((!aux.getSouth().getNodeColor().equals("n"))) {
+
+                while (aux.getSouth() != null && !aux.getNodeColor().equals("n") && !aux.getSouth()
+                        .getNodeColor().equals(turn)) {
+                    aux = aux.getSouth();
+                }
+                if (pieceList.indexOf(aux) != position) {
+                    changeIcon(pieceList.indexOf(aux));
+                    avalible.add(pieceList.indexOf(aux));
+                }
+
+            }
+        }
+
+    }
+
+    private void checkNorthWest(int position) {
+        PieceNodes aux = pieceList.get(position);
+        if (aux.getNorthwest() != null) {
+            if (!aux.getNorthwest().getNodeColor().equals("n")) {
+
+                while (aux.getNorthwest() != null && !aux.getNodeColor().equals("n") && !aux.getNorthwest()
+                        .getNodeColor().equals(turn)) {
+                    aux = aux.getNorthwest();
+                }
+                if (pieceList.indexOf(aux) != position) {
+                    changeIcon(pieceList.indexOf(aux));
+                    avalible.add(pieceList.indexOf(aux));
+                }
+
+            }
+        }
+
+    }
+
+    private void checkNorthEast(int position) {
+        PieceNodes aux = pieceList.get(position);
+        if (aux.getNortheast() != null) {
+            if (!aux.getNortheast().getNodeColor().equals("n")) {
+                while (aux.getNortheast() != null && !aux.getNodeColor().equals("n") && !aux.getNortheast()
+                        .getNodeColor().equals(turn)) {
+                    aux = aux.getNortheast();
+                }
+                if (pieceList.indexOf(aux) != position) {
+                    changeIcon(pieceList.indexOf(aux));
+                    avalible.add(pieceList.indexOf(aux));
+                }
+            }
+        }
+    }
+
+    private void checkSouthWest(int position) {
+        PieceNodes aux = pieceList.get(position);
+        if (aux.getSouthwest() != null) {
+            if (!aux.getSouthwest().getNodeColor().equals("n")) {
+
+                while (aux.getSouthwest() != null && !aux.getNodeColor().equals("n") && !aux.getSouthwest()
+                        .getNodeColor().equals(turn)) {
+                    aux = aux.getSouthwest();
+                }
+                if (pieceList.indexOf(aux) != position) {
+                    changeIcon(pieceList.indexOf(aux));
+                    avalible.add(pieceList.indexOf(aux));
+                }
+
+            }
+        }
+
+    }
+
+    private void checkSouthEast(int position) {
+        PieceNodes aux = pieceList.get(position);
+        if (aux.getSoutheast() != null) {
+            if (!aux.getSoutheast().getNodeColor().equals("n")) {
+                try {
+                    while (aux.getSoutheast() != null && !aux.getNodeColor().equals("n") && !aux.getSoutheast()
+                            .getNodeColor().equals(turn)) {
+                        aux = aux.getSoutheast();
+                    }
+
+                    if (pieceList.indexOf(aux) != position) {
+                        changeIcon(pieceList.indexOf(aux));
+                        avalible.add(pieceList.indexOf(aux));
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println("Llego al este.");
+                }
+            }
         }
 
     }
