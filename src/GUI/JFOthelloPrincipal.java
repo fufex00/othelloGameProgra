@@ -251,7 +251,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         int previousR = 1;
         // caso del primer nodo, esquina izquierda superior
         pieceList.get(0).setSouth(pieceList.get(8));
-        pieceList.get(0).setSouthwest(pieceList.get(9));
+        pieceList.get(0).setSoutheast(pieceList.get(9));
         pieceList.get(0).setEast(pieceList.get(1));
 
         for (int i = 1; i < pieceList.size() - 1; i++) {
@@ -364,6 +364,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < pieceList.size(); i++) {
             if (e.getSource() == pieceList.get(i)) {
+                System.out.println(pieceList.get(i).getNodeColor());
                 if (checkUsed(i)) {
                     flipPieces(i);
                 }
@@ -420,7 +421,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
     private void checkNorth(int position) {
         PieceNodes aux = pieceList.get(position);
-        if (!aux.getNorth().getNodeColor().equals("n")) {
+        if ((!aux.getNorth().getNodeColor().equals("n"))&&(!aux.getNorth().getNodeColor().equals(turn))) {
             try {
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getNorth()
                         .getNodeColor().equals(turn)) {
@@ -440,7 +441,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
     private void checkSouth(int position) {
         PieceNodes aux = pieceList.get(position);
-        if (!aux.getSouth().getNodeColor().equals("n")) {
+        if ((!aux.getSouth().getNodeColor().equals("n"))&&(!aux.getSouth().getNodeColor().equals(turn))) {
             try {
                 while (aux != null && !aux.getNodeColor().equals("n") && !aux.getSouth()
                         .getNodeColor().equals(turn)) {
