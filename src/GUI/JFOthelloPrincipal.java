@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
@@ -97,23 +98,20 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblWhitePieces, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPlayerOne))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblBlackPieces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblPlayertwo))
-                        .addGap(4, 4, 4))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Jugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(label)))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblWhitePieces, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPlayerOne))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblBlackPieces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPlayertwo))
+                .addContainerGap(10, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Jugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -276,7 +274,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         used.add(35);
         used.add(36);
         checkLegalMoves();
-       
+
     }
 
     private void iniciateNodes() {
@@ -400,6 +398,7 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
             if (e.getSource() == pieceList.get(i)) {
                 System.out.println(pieceList.get(i).getNodeColor());
                 if (checkUsed(i)) {
+                    pieceList.get(i).setNodeColor(turn);
                     flipPieces(i);
                 }
             }
@@ -496,7 +495,6 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         PieceNodes aux = pieceList.get(position);
         if (aux.getNorthwest() != null) {
             if (!aux.getNorthwest().getNodeColor().equals("n")) {
-
                 while (aux.getNorthwest() != null && !aux.getNodeColor().equals("n") && !aux.getNorthwest()
                         .getNodeColor().equals(turn)) {
                     aux = aux.getNorthwest();
@@ -508,7 +506,6 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
             }
         }
-
     }
 
     private void checkNorthEast(int position) {
@@ -587,7 +584,6 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
     }
 
     private boolean checkUsed(int usedPosition) {
-
         for (Integer position : used) {
             if (pieceList.get(position) == pieceList.get(usedPosition)) {
                 return false;
@@ -610,12 +606,16 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
         if (turn.equals("b")) {
             colorIcon = "/Images/dark.png";
             pieceList.get(position).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+
         } else {
             colorIcon = "/Images/light.png";
             pieceList.get(position).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+
         }
 
-        changeColors(position);
+//        changeColors(position);
+        changecolor(position);
+
         if (turn.equals("b")) {
             turn = "w";
             Jugador.setText("Blancos");
@@ -629,90 +629,211 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
     }
 
     private void changeColors(int position) {
+
         PieceNodes aux = pieceList.get(position);
-
-        try {
-            while (aux != null && !aux.getSouth().getNodeColor().equals(turn) && !aux.getSouth().getNodeColor().equals("n")) {
-                aux.getSouth().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
-                aux.setNodeColor(turn);
-                aux.getSouth().setNodeColor(turn);
-                aux = aux.getSouth();
-            }
-            aux = pieceList.get(position);
-        } catch (NullPointerException e) {
+        String opositeTurn;
+        int counter = 0;
+        LinkedList<Integer> nodes = new LinkedList<>();
+        if (turn.equals("w")) {
+            opositeTurn = "b";
+        } else {
+            opositeTurn = "w";
         }
 
-        try {
-            while (aux.getNorth() != null && !aux.getNorth().getNodeColor().equals(turn) && !aux.getNorth().getNodeColor().equals("n")) {
-                aux.getNorth().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+        aux = aux.getNorthwest();
+
+        while (aux != null) {
+
+            if (!aux.getNodeColor().equals(aux.getSoutheast().getNodeColor()) && aux.getNodeColor().equals(opositeTurn)) {
+                System.out.println("Revisando noroeste");
+                counter++;
+                nodes.add(pieceList.indexOf(aux));
                 aux.setNodeColor(turn);
-                aux.getNorth().setNodeColor(turn);
-                aux = aux.getNorth();
             }
-            aux = pieceList.get(position);
-        } catch (NullPointerException e) {
+            aux = aux.getNorthwest();
         }
-        try {
-            while (aux != null && !aux.getEast().getNodeColor().equals(turn) && !aux.getEast().getNodeColor().equals("n")) {
-                aux.getEast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
-                aux.setNodeColor(turn);
-                aux.getEast().setNodeColor(turn);
-                aux = aux.getEast();
+        if (counter > 1) {
+            for (Integer node : nodes) {
+                pieceList.get(node).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+//                pieceList.get(node).setNodeColor(turn);
             }
-            aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
-            while (aux != null && !aux.getWest().getNodeColor().equals(turn) && !aux.getWest().getNodeColor().equals("n")) {
-                aux.getWest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+        nodes.clear();
+        counter = 0;
+        aux = pieceList.get(position);
+
+        aux = aux.getNortheast();
+
+        while (aux != null) {
+            if (!aux.getNodeColor().equals(aux.getSouthwest().getNodeColor()) && aux.getNodeColor().equals(opositeTurn)) {
+                System.out.println("Revisando noreste");
+                counter++;
+                nodes.add(pieceList.indexOf(aux));
                 aux.setNodeColor(turn);
-                aux.getWest().setNodeColor(turn);
-                aux = aux.getWest();
             }
-            aux = pieceList.get(position);
-        } catch (NullPointerException e) {
+            aux = aux.getNortheast();
         }
-        try {
-            while (aux.getNorthwest() != null && !aux.getNorthwest().getNodeColor().equals(turn) && !aux.getNorthwest().getNodeColor().equals("n")) {
-                aux.getNorthwest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
-                aux.setNodeColor(turn);
-                aux.getNorthwest().setNodeColor(turn);
-                aux = aux.getNorthwest();
+        if (counter > 1) {
+            for (Integer node : nodes) {
+                pieceList.get(node).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+//                pieceList.get(node).setNodeColor(turn);
             }
-            aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
-            while (aux.getNortheast() != null && !aux.getNortheast().getNodeColor().equals(turn) && !aux.getNortheast().getNodeColor().equals("n")) {
-                aux.getNortheast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+        nodes.clear();
+        counter = 0;
+        aux = pieceList.get(position);
+
+        aux = aux.getSoutheast();
+
+        while (aux != null) {
+            if (!aux.getNodeColor().equals(aux.getNorthwest().getNodeColor()) && aux.getNodeColor().equals(opositeTurn)) {
+                System.out.println("Revisando sureste");
+                counter++;
+                nodes.add(pieceList.indexOf(aux));
                 aux.setNodeColor(turn);
-                aux.getNortheast().setNodeColor(turn);
-                aux = aux.getNortheast();
             }
-            aux = pieceList.get(position);
-        } catch (NullPointerException e) {
+
+            aux = aux.getSoutheast();
         }
-        try {
-            while (aux != null && !aux.getSouthwest().getNodeColor().equals(turn) && !aux.getSouthwest().getNodeColor().equals("n")) {
-                aux.getSouthwest().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
-                aux.setNodeColor(turn);
-                aux.getSouthwest().setNodeColor(turn);
-                aux = aux.getSouthwest();
+        if (counter > 1) {
+            for (Integer node : nodes) {
+                pieceList.get(node).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+//                pieceList.get(node).setNodeColor(turn);
             }
-            aux = pieceList.get(position);
-        } catch (NullPointerException e) {
         }
-        try {
-            while (aux != null && !aux.getSoutheast().getNodeColor().equals(turn) && !aux.getSoutheast().getNodeColor().equals("n")) {
-                aux.getSoutheast().setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+        nodes.clear();
+        counter = 0;
+
+        aux = pieceList.get(position);
+        aux = aux.getSouthwest();
+
+        while (aux != null) {
+            if (!aux.getNodeColor().equals(aux.getNortheast().getNodeColor()) && aux.getNodeColor().equals(opositeTurn)) {
+                System.out.println("Revisando suroeste");
+                counter++;
+                nodes.add(pieceList.indexOf(aux));
                 aux.setNodeColor(turn);
-                aux.getSoutheast().setNodeColor(turn);
-                aux = aux.getSoutheast();
             }
-        } catch (NullPointerException e) {
+
+            aux = aux.getSouthwest();
+        }
+        if (counter > 1) {
+            for (Integer node : nodes) {
+                pieceList.get(node).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+//                pieceList.get(node).setNodeColor(turn);
+            }
+        }
+        nodes.clear();
+        counter = 0;
+
+        aux = pieceList.get(position);
+        aux = aux.getSouth();
+
+        while (aux != null) {
+
+            if (!aux.getNodeColor().equals(aux.getNorth().getNodeColor()) && aux.getNodeColor().equals(opositeTurn)) {
+                System.out.println("Revisando sur");
+                counter++;
+                nodes.add(pieceList.indexOf(aux));
+                aux.setNodeColor(turn);
+            }
+
+            aux = aux.getSouth();
+        }
+        if (counter > 0) {
+            for (Integer node : nodes) {
+                pieceList.get(node).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+//                pieceList.get(node).setNodeColor(turn);
+            }
+        }
+        nodes.clear();
+        counter = 0;
+
+        aux = pieceList.get(position);
+
+        aux = aux.getEast();
+
+        while (aux != null) {
+
+            if (!aux.getNodeColor().equals(aux.getWest().getNodeColor()) && aux.getNodeColor().equals(opositeTurn)) {
+                System.out.println("Revisando este");
+                counter++;
+                nodes.add(pieceList.indexOf(aux));
+                aux.setNodeColor(turn);
+            }
+
+            aux = aux.getEast();
+        }
+        if (counter > 0) {
+            for (Integer node : nodes) {
+                pieceList.get(node).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+//                pieceList.get(node).setNodeColor(turn);
+            }
+        }
+        nodes.clear();
+        counter = 0;
+
+        aux = pieceList.get(position);
+
+        aux = aux.getWest();
+        while (aux != null) {
+
+            if (!aux.getNodeColor().equals(aux.getEast().getNodeColor()) && aux.getNodeColor().equals(opositeTurn)) {
+                System.out.println("Revisando oeste");
+                counter++;
+                nodes.add(pieceList.indexOf(aux));
+                aux.setNodeColor(turn);
+            }
+
+            aux = aux.getWest();
+        }
+        if (counter > 0) {
+            for (Integer node : nodes) {
+                pieceList.get(node).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+//                pieceList.get(node).setNodeColor(turn);
+            }
+        }
+        nodes.clear();
+        counter = 0;
+
+        aux = pieceList.get(position);
+
+        aux = aux.getNorth();
+
+        while (aux != null) {
+
+            if (!aux.getNodeColor().equals(aux.getSouth().getNodeColor()) && aux.getNodeColor().equals(opositeTurn)) {
+                System.out.println("Revisando norte");
+                counter++;
+                nodes.add(pieceList.indexOf(aux));
+                aux.setNodeColor(turn);
+            }
+
+            aux = aux.getNorth();
+        }
+        if (counter > 0) {
+            for (Integer node : nodes) {
+                pieceList.get(node).setIcon(new javax.swing.ImageIcon(getClass().getResource(colorIcon)));
+//                pieceList.get(node).setNodeColor(turn);
+            }
+        }
+        nodes.clear();
+        counter = 0;
+    }
+
+    private void changecolor(int position) {
+        PieceNodes aux;
+        PieceNodes aux1;
+
+        aux = pieceList.get(position).getNorth();
+        aux1 = aux.getNorth();
+
+        while (aux1 != null) {
+            if (aux.getNodeColor().equals(ABORT)) {
+
+            }
         }
 
     }
 
-   
 }
