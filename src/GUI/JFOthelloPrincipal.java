@@ -613,8 +613,8 @@ public class JFOthelloPrincipal extends javax.swing.JFrame implements ActionList
 
         }
 
-//        changeColors(position);
-        changecolor(position);
+        changeColors(position);
+//         changecolor(position);
 
         if (turn.equals("b")) {
             turn = "w";
