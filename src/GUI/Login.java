@@ -6,14 +6,7 @@
 package GUI;
 
 import Logic.Players;
-import java.awt.HeadlessException;
-
-import java.awt.List;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import javax.swing.JOptionPane;
-import jdk.nashorn.internal.objects.NativeRegExp;
 
 /**
  *
